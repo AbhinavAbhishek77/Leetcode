@@ -1,6 +1,7 @@
 class Solution {
 public:
     long long countSubarrays(vector<int>& nums, int k) {
+//APPROACH 1
         int n = nums.size();
         long long maxi = *max_element(nums.begin(), nums.end());
         long long cnt = 0, ans = 0;
@@ -22,5 +23,10 @@ public:
             j++;
         }
         return ans;
+
+        //APPROACH 2
+
+        
+
     }
 };
