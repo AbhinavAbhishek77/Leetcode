@@ -1,46 +1,84 @@
 class Solution {
 public:
-    int ss(vector<int>& c, vector<int>& g, int m) {
-        int n = c.size();
-        int total = 0;
+    // int ss(vector<int>& c, vector<int>& g, int m) {
+    //     int n = c.size();
+    //     int total = 0;
 
-        // Calculate the initial satisfaction without using the technique
-        for (int i = 0; i < n; i++) {
-            if (g[i] == 0) {
-                total += c[i];
-            }
-        }
+    //     // Calculate the initial satisfaction without using the technique
+    //     for (int i = 0; i < n; i++) {
+    //         if (g[i] == 0) {
+    //             total += c[i];
+    //         }
+    //     }
 
-        // Calculate the maximum extra satisfied customers when using the
-        // technique
-        int extra = 0;
-        int currentExtra = 0;
+    //     // Calculate the maximum extra satisfied customers when using the
+    //     // technique
+    //     int extra = 0;
+    //     int currentExtra = 0;
 
-        // Initial window of size `m`
-        for (int i = 0; i < m; i++) {
-            if (g[i] == 1) {
-                currentExtra += c[i];
-            }
-        }
-        extra = currentExtra;
+    //     // Initial window of size `m`
+    //     for (int i = 0; i < m; i++) {
+    //         if (g[i] == 1) {
+    //             currentExtra += c[i];
+    //         }
+    //     }
+    //     extra = currentExtra;
 
-        // Slide the window across the entire array
-        for (int i = m; i < n; i++) {
-            if (g[i] == 1) {
-                currentExtra += c[i];
-            }
-            if (g[i - m] == 1) {
-                currentExtra -= c[i - m];
-            }
-            extra = max(extra, currentExtra);
-        }
+    //     // Slide the window across the entire array
+    //     for (int i = m; i < n; i++) {
+    //         if (g[i] == 1) {
+    //             currentExtra += c[i];
+    //         }
+    //         if (g[i - m] == 1) {
+    //             currentExtra -= c[i - m];
+    //         }
+    //         extra = max(extra, currentExtra);
+    //     }
 
-        return total + extra;
-    }
+    //     return total + extra;
+    // }
     int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
         int n = customers.size();
 
-        return ss(customers, grumpy, minutes);
+        // return ss(customers, grumpy, minutes);
+        int maxi = INT_MIN;
+        int ind = -1;
+        int un = 0;
+        int i = 0;
+        for (i = 0; i < minutes; i++) {
+            if (grumpy[i] == 1) {
+                un += customers[i];
+            }
+        }
+        if (un > maxi) {
+            maxi = un;
+            ind = i - minutes;
+        }
+        for (int j = i; j < n; j++) {
+            if (grumpy[j] == 1)
+                un += customers[j];
+            if (grumpy[j - minutes] == 1)
+                un -= customers[j - minutes];
+            if (un > maxi) {
+                maxi = un;
+                ind = j - minutes + 1;
+            }
+        }
+
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            if (i >= ind && i <= ind + minutes - 1) {
+                sum += customers[i];
+
+            }
+
+            else if (grumpy[i] == 0) {
+                sum += customers[i];
+            }
+        }
+
+        return sum;
+
         // if (n == 1)
         //     return customers[0];
 
