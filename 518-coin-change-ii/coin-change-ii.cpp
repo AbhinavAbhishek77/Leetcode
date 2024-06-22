@@ -1,8 +1,8 @@
 class Solution {
 public:
     int solve(vector<int>& nums, int ind, int target, vector<vector<int>>& dp) {
-        // if (target == 0)
-        //     return 1;
+        if (target == 0)
+            return 1;
         if (ind == 0) {
             return target % nums[0] == 0 ? 1 : 0;
         }
