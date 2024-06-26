@@ -25,7 +25,7 @@ public:
     int mincostTickets(vector<int>& days, vector<int>& costs) {
         int n = days.size();
         int mini = min(costs[0], min(costs[1], costs[2]));
-        vector<vector<int>> dp(n + 1, vector<int>(1001, -1));
+        vector<vector<int>> dp(366, vector<int>(1001, -1));
         return solve(days, costs, 0, days[0] - 1, mini, dp);
     }
 };
