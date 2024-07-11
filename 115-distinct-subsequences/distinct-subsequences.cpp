@@ -1,38 +1,39 @@
 class Solution {
 public:
     // Space optimized =>2D Array
+
     int mod = 1e9 + 7;
-    // prev[0] = 1 means that there is exactly one way to match an empty
-    // subsequence (sub) with any prefix of str. curr[0] = 1 ensures that this
-    // property is carried over as we compute values for each new row.
-    int distinctSubsequences(string& str, string& sub) {
-        int n = str.size();
-        int m = sub.size();
-        vector<int> prev(m + 1, 0), curr(m + 1, 0);
+    int solve(string& s1, string& s2, int n, int m) {
+        // Create an array to store the count of distinct subsequences for each
+        // character in s2
+        vector<int> prev(m + 1, 0);
 
-        // for (int i = 0; i <= n; i++) {
-        //     dp[i][0] = 1; // An empty sub is a subsequence of any string
-        // }
-        // for (int j = 1; j <= m; j++) {
-        //     dp[0][j] = 0; // Non-empty sub cannot be a subsequence of an
-        //     empty string
-        // }
+        // Initialize the count for an empty string (base case)
+        prev[0] = 1;
 
-        prev[0] = curr[0] = 1;
-
+        // Iterate through s1 and s2 to calculate the counts
         for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                if (str[i - 1] == sub[j - 1]) {
-                    curr[j] = (prev[j - 1] + prev[j]) % mod;
-                } else {
-                    curr[j] = prev[j] % mod;
+            for (int j = m; j >= 1;
+                 j--) { // Iterate in reverse direction to avoid overwriting
+                        // values prematurely
+                if (s1[i - 1] == s2[j - 1]) {
+                    // If the characters match, we have two options:
+                    // 1. Match the current characters and add to the previous
+                    // count (prev[j-1])
+                    // 2. Leave the current character in s1 and match s2 with
+                    // the previous characters (prev[j])
+                    prev[j] = (prev[j - 1] + prev[j]) % mod;
                 }
+                // No need for an else statement since we can simply leave the
+                // previous count as is
             }
-            prev = curr;
         }
 
-        return prev[m] % mod;
+        // The value at prev[m] contains the count of distinct subsequences
+        return prev[m];
     }
 
-    int numDistinct(string s, string t) { return distinctSubsequences(s, t); }
+    int numDistinct(string s, string t) {
+        return solve(s, t, s.size(), t.size());
+    }
 };
