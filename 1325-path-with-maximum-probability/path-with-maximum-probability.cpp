@@ -1,5 +1,7 @@
 class Solution {
 public:
+    // TC:O(ElogE)
+    // SC: O(N)
     double maxProbability(int n, vector<vector<int>>& edges,
                           vector<double>& succProb, int start_node,
                           int end_node) {
@@ -20,10 +22,10 @@ public:
         //         cout << v.first << " " << v.second << endl;
         // }
 
-        priority_queue<pair<double, int>> pq;
-        // priority_queue<pair<int, int>, vector<pair<int, int>>,
-        //                greater<pair<int, int>>>
-        //     pq;
+        // priority_queue<pair<double, int>> pq;
+        priority_queue<pair<int, int>, vector<pair<int, int>>,
+                       greater<pair<int, int>>>
+            pq;
         // queue<pair<double, int>> pq;
 
         vector<double> dist(n, 0);
